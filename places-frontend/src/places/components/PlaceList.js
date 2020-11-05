@@ -8,7 +8,7 @@ function PlaceList(props) {
         return (
         <div className="place-list center">
             <Card>
-                <h2 className="">No places found. Maybe create</h2>
+                <h2 className="">No places found. Maybe create?</h2>
                 <button>Share Place</button>
             </Card>
         </div>
