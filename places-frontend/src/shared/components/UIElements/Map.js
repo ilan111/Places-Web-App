@@ -37,6 +37,8 @@ function Map(props) {
             .addTo(map);
 
         map.addControl(new mapboxgl.NavigationControl());
+
+        map.addControl(new mapboxgl.FullscreenControl({container: document.querySelector('map')}));
         };
 
         if (!map) initializeMap({ setMap, mapRef });
