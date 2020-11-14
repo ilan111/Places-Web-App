@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 import Button from '../../shared/components/FormElements/Button';
 import Input from '../../shared/components/FormElements/Input';
@@ -30,10 +30,25 @@ const DUMMY_PLACES=[
 const UpdatePlace = () => {
   const placeId = useParams().placeId;
 
+
+  const [formState, inputHandler, setFormData] = useForm(
+    {
+      title: {
+        value: '',
+        isValid: false
+      },
+      description: {
+        value: '',
+        isValid: false
+      }
+    },
+    false
+  );
+
   const identifiedPlace = DUMMY_PLACES.find(p => p.id === placeId);
 
-  const [formState, inputHandler] = useForm(
-    {
+  useEffect(()=>{
+    setFormData({
       title: {
         value: identifiedPlace.title,
         isValid: true
@@ -42,14 +57,17 @@ const UpdatePlace = () => {
         value: identifiedPlace.description,
         isValid: true
       }
-    },
-    true
-  );
+    }, 
+      true
+    );
+  },[setFormData,identifiedPlace]);
 
-  const placeUpdateSubmitHandler = event => {
+  
+
+  function placeUpdateSubmitHandler(event) {
     event.preventDefault();
     console.log(formState.inputs);
-  };
+  }
 
   if (!identifiedPlace) {
     return (
