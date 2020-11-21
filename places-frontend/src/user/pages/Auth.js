@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Auth.css';
 import Modal from '../../shared/components/UIElements/Modal'
 import Card from '../../shared/components/UIElements/Card';
 import Input from '../../shared/components/FormElements/Input';
-import {VALIDATOR_EMAIL, VALIDATOR_MINLENGTH} from '../../shared/util/validators';
+import {VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE} from '../../shared/util/validators';
 import {useForm} from '../../shared/hooks/form-hook';
 import Button from '../../shared/components/FormElements/Button';
 
 function Auth() {
-    const [formState, inputHandler]=useForm({
+    const [isLoginMode, setIsLoginMode]=useState(true);
+    const [formState, inputHandler,setFormData]=useForm({
         email:{
             value: '', 
             isValid: false
@@ -18,6 +19,27 @@ function Auth() {
             isValid: false
         }
     },false);
+
+    const switchModelHandler=()=>{
+        if(!isLoginMode){
+            setFormData(
+                {
+                    ...formState.inputs,
+                    name: undefined
+                }, 
+                formState.inputs.email.isValid && formState.inputs.password.isValid)
+        }
+        else{
+            setFormData({
+                ...formState.inputs,
+               name: {
+                    value: '',
+                    isValid: false
+                }
+            }, false);
+        }
+        setIsLoginMode(prevMode=>!prevMode);
+    };
 
     const authSubmitHandler = event =>{
         event.preventDefault();
@@ -29,6 +51,17 @@ function Auth() {
             <h2>Login Required!</h2>
             <hr/>
             <form onSubmit={authSubmitHandler}>
+                {!isLoginMode && (
+                    <Input 
+                        element="input" 
+                        id="name" 
+                        type="text" 
+                        label="Your name" 
+                        validators={[VALIDATOR_REQUIRE()]}
+                        errorText="Please enter a name."
+                        onInput={inputHandler}    
+                    />
+                    )}
                 <Input 
                     element="input" 
                     id="email" 
@@ -48,9 +81,20 @@ function Auth() {
                     onInput={inputHandler}
                 />
                 
-                <Button type="submit" disabled={!formState.isValid}>LOGIN</Button>
+                <Button 
+                    type="submit" 
+                    disabled={!formState.isValid}
+                >
+                    {isLoginMode? 'LOGIN' : 'SIGN UP'}
+                </Button>
                 
             </form> 
+            <Button 
+                inverse 
+                onClick={switchModelHandler}
+            >
+                SWITCH TO {isLoginMode? 'SIGN UP': 'LOGIN'}
+            </Button>
         </Card>
 
          )
