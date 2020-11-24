@@ -1,60 +1,17 @@
 const express = require('express');
 
-const HttpError = require('../models/http-error');
+const placesControllers = require('../controllers/places-controllers')
 
 const router = express.Router();
 
-const DUMMY_PLACES = [
-    {
-        id: 'p1',
-        title: 'Empire State Building',
-        description: 'One of the most famous sky scrapers in the world',
-        location:{
-            lat: 40.7484474,
-            lng: -73.9871516
-        },
-        address: '20 W 34th St, New York, NY, 1001',
-        creator: 'u1'
-    }
-];
+router.get('/:pid', placesControllers.getPlaceById);
 
-router.get('/:pid', (req, res, next) => {
-    const placeId = req.params.pid;
+router.get('/user/:uid', placesControllers.getPlaceByUserId);
 
-    const place = DUMMY_PLACES.find(p =>{
-        return p.id === placeId;
-    })
+router.post('/', placesControllers.createPlace); 
 
-    if (!place) {
-        // option 1 to handle an error: 
-    //    const error = new Error ('Could not find a place for the provided id.');
-    //    error.code = 404;
-    //    throw error; 
+router.patch('/:pid', placesControllers.updatePlace);
 
-        throw new HttpError('Could not find a place for the provided id.', 404);
-    }
-
-    res.json({place}); // {place} => {place: place}
-});
-
-router.get('/user/:uid',(req,res, next)=>{
-    const userId = req.params.uid;
-    
-    const place = DUMMY_PLACES.find( p => {
-        return p.creator === userId;
-    });
-
-    if (!place) {
-        //option 2 to handle an error:
-        // const error = new Error ('Could not find a place for the provided user id.');
-        // error.code = 404;
-        // return next(error);  
-        return next(
-             new HttpError('Could not find a place for the provided user id.', 404)
-        );
-       }
-
-    res.json({place}); // {place} => {place: place}
-});
+router.delete('/:pid', placesControllers.deletePlace);
 
 module.exports = router;
