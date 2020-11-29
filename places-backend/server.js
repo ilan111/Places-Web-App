@@ -3,6 +3,10 @@ const bodyParser = require('body-parser');
 const placesRoutes = require('./routes/places-routes');
 const usersRoutes = require('./routes/users-routes');
 const HttpError = require('./models/http-error');
+const mongoose = require('mongoose');
+
+const DBurl = 'mongodb+srv://admin:jLAZ0nE03mkqOLYF@cluster0.erd12.mongodb.net/PlacesDB?retryWrites=true&w=majority';
+
 
 //app configs
 const app = express();
@@ -36,4 +40,11 @@ app.use((error, req, res, next) => {
 
 
 // Listener
-app.listen(5000);
+mongoose
+    .connect(DBurl)
+    .then(()=>{
+        app.listen(5000);
+    })
+    .catch(err => {
+        console.log(err);
+    });
