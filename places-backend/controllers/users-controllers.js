@@ -38,7 +38,7 @@ const signup = async (req, res, next) => {
     const createdUser = new User({
         name,
         email,
-        image: 'https://www.fuelchoicesinitiative.com/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png',
+        image: req.file.path,
         password,
         places: []
     });
