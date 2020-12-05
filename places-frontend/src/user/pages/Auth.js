@@ -72,7 +72,7 @@ function Auth() {
                 }
                     
                 );
-                auth.login(responseData.user.id);
+                auth.login(responseData.userId, responseData.token);
             } catch (err) {}        
         }
         else{
@@ -88,7 +88,7 @@ function Auth() {
                     formData
                 );
                 
-                auth.login();
+                auth.login(responseData.userId, responseData.token);
             }
             catch(err){}
             
