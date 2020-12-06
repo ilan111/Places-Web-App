@@ -1,0 +1,9 @@
+{
+    "env":{
+        "DB_USER": "admin",
+        "DB_PASSWORD": "jLAZ0nE03mkqOLYF",
+        "DB_NAME": "Places-MERN-DB",
+        "MAPBOX_API_KEY": "pk.eyJ1IjoidGQxMDUiLCJhIjoiY2toOHlvcjZpMDNxbjJ1cGppanoyemEwYyJ9.nxXhwsYwG4hbcutLUPVPhg",
+        "JWT_KEY": "supersecret_dont_share"
+    }
+}

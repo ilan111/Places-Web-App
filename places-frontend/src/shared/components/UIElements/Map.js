@@ -3,12 +3,6 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import './Map.css';
 
-// const styles = {
-//     width: "100vw",
-//     height: "calc(100vh - 80px)",
-//     position: "absolute"
-//   };
-
 function Map(props) {
     const [map, setMap] = useState(null);
 
@@ -17,8 +11,7 @@ function Map(props) {
     const {center,zoom}=props;
 
      useEffect(() => {
-         //TODO: put the API key into .env file.
-        mapboxgl.accessToken = 'pk.eyJ1IjoidGQxMDUiLCJhIjoiY2toOHlvcjZpMDNxbjJ1cGppanoyemEwYyJ9.nxXhwsYwG4hbcutLUPVPhg';
+        mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY;
         const initializeMap = ({ setMap, mapRef }) => {
           const map = new mapboxgl.Map({
             container: mapRef.current,

@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 
-const DBurl = 'mongodb+srv://admin:jLAZ0nE03mkqOLYF@cluster0.erd12.mongodb.net/Places-MERN-DB?retryWrites=true&w=majority';
+const DBurl = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.erd12.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 
 
 //app configs
@@ -54,7 +54,7 @@ app.use((error, req, res, next) => {
 mongoose
     .connect(DBurl)
     .then(()=>{
-        app.listen(5000);
+        app.listen(process.env.PORT || 5000);
     })
     .catch(err => {
         console.log(err);
